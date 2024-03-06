@@ -1,0 +1,61 @@
+1. 동영상 처리하기
+cv2.VideoCapture 클래스
+카메라와 동영상으로부터 프레임(frame)을 받아오는 작업을 처리함
+
+카메라 영상 입력
+cv2.VideoCapture(index)
+index: 시스템의 기본 카메라를 open하려면 0, 별도의 카메라를 open하려면 고유의 index 값
+
+cv2.VideoCapture.isOpened(): 카메라에 연결이 되었는지 여부
+True: 성공, False: 실패
+
+cv2.CAP_PROP_FRAME_WIDTH: 카메라로 읽어들인 영상의 가로 사이즈
+cv2.CAP_PROP_FRAME_HEIGHT: 카메라로 읽어들인 영상의 세로 사이즈
+
+cv2.VideoCapture.read()
+ret: 영상이 정상적으로 리턴되었는지 여부(True, False)
+frame: 영상(그레이스케일 영상 또는 컬러 영상)
+
+동영상 입력
+cv2.VideoCapture(파일명)
+
+동영상 출력
+FourCC(Four Character Code)
+- 4바이트로 된 문자열이며, 데이터 형식을 구분하는 고유 글자
+- 주로 AVI 파일의 영상 코덱을 구분할 때 사용
+    cv2.VideoWriter.fourcc(*"DIVX") // DIVX
+    cv2.VideoWriter.fourcc(*"XVID") // Xvid
+    ...
+    cv2.VideoWriter.fourcc(*"MP4V") // mp4
+
+파일 저장
+cv2.VideoWriter(파일명, FourCC객체, fps, 프레임사이즈, 컬러영상여부)
+* 프레임사이즈: (w, h)의 튜플
+* 컬러영상여부: True-> 컬러, False-> 그레이스케일
+
+문제
+무료 동영상 사이트에서 동영상 2개를 다운받아 두 동영상을 연결하는 프로그램을 만들어보자
+- 단, 두 동영상의 해상도가 같아야 함
+
+과제
+위 문제에서 1번 동영상이 끝나기 2초전부터 2번 동영상이 좌측에서 시작되어 2초가 끝나면 2번 동영상이 모두 보이는 형태의 트렌지션 효과를 넣은 프로그램을 만들어보자
+
+2. 키보드 이벤트
+cv2.waitKey(delay)
+delay: 밀리초 단위 대기(0보다 작거나 같으면 무한정 기다림. 기본값은 0)
+return: 눌려진 키의 아스키 코드값(ESC: 27, ENTER: 13, TAB: 9 ..)
+✔ ord(): 문자열을 입력하면 해당 문자열의 아스키 코드값을 반환
+
+3. 마우스 이벤트
+cv2.setMouthCallback(윈도우이름, 콜백함수, 파라미터)
+윈도우이름: 마우스 이벤트를 처리할 윈도우 창의 이름
+콜백함수: 마우스 이벤트가 발생할 때 호출될 콜백 함수를 설정
+    def 함수명(event, x, y, flags, param):
+        pass
+
+    event: 이벤트 객체
+    x, y: 마우스 x, y 좌표
+    flags: 마우스 버튼이 눌리고 있는데 떼졌는지 여부
+    param: 추가적인 정보가 전달되었다면 저장
+
+파라미터: 콜백함수에 전달할 추가적인 정보
